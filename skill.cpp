@@ -79,6 +79,6 @@ std::ostream& Skill::Display(std::ostream& os) {
 
 std::ostream& operator <<(std::ostream& os, const Skill& s) {
     os << s.getName() << " -- " << s.getDescription() << " [Lvl: " 
-       << s.getLevel() << "]\n";
+       << s.getLevel() << "]";
     return os;
 }

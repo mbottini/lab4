@@ -26,10 +26,13 @@ class skillNode {
         const Skill& getSkill() const;
         int getNumberOfChildren() const;
         skillNode* operator [](const int index) const;
+        Skill* getSkillPtr();
 
         void setSkill(const Skill& newSkill);
         bool addChild(const Skill& newSkill);
+        bool addChild(skillNode* node);
+        skillNode* findSkillNode(const char* name);
+        std::ostream& Display(std::ostream& os, int depth = 0);
 };
 
-std::ostream& operator <<(std::ostream& os, const skillNode& s);
 #endif

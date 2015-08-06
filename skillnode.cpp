@@ -86,6 +86,10 @@ skillNode* skillNode::operator [](const int index) const {
     }
 }
 
+Skill* skillNode::getSkillPtr() {
+    return &_skill;
+}
+
 void skillNode::setSkill(const Skill& newSkill) {
     _skill = newSkill;
     return;
@@ -107,11 +111,43 @@ bool skillNode::addChild(const Skill& newSkill) {
     return childPredicate;
 }
 
-std::ostream& operator <<(std::ostream& os, const skillNode& s) {
-    os << "  - " << s.getSkill();
-    for(int i = 0; i < s.getNumberOfChildren(); i++) {
-        os << "  " << *(s[i]);
+bool skillNode::addChild(skillNode* node) {
+    bool childPredicate = false;
+
+    if(_numberOfChildren < _maxChildren) {
+        _children[_numberOfChildren] = node;
+        _numberOfChildren++;
+        childPredicate = true;
+    }
+
+    return childPredicate;
+}
+
+std::ostream& skillNode::Display(std::ostream& os, int depth) {
+    for(int i = 0; i < depth; i++) {
+        std::cout << "  ";
+    }
+    os << "  - " << _skill << "\n";
+    for(int i = 0; i < _numberOfChildren; i++) {
+        _children[i]->Display(os, depth + 1);
     }
 
     return os;
 }
+
+skillNode* skillNode::findSkillNode(const char* name) {
+    if(strcmp(name, _skill.getName()) == 0) {
+        return this;
+    }
+
+    else {
+        for(int i = 0; i < _numberOfChildren; i++) {
+            if(_children[i]->findSkillNode(name)) {
+                return _children[i]->findSkillNode(name);
+            }
+        }
+
+        return NULL;
+    }
+}
+
