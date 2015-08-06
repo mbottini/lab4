@@ -3,7 +3,12 @@
 
 #include "skill.h"
 
-Skill::Skill(const char* name, const char* description, int level) {
+Skill::Skill(const char* name, const char* description, const int& level) {
+    setValues(name, description, level);
+    return;
+}
+void Skill::setValues(const char* name, const char* description,
+                      const int& level) {
     _name = new char[strlen(name) + 1];
 
     if(_name) {
@@ -30,6 +35,24 @@ Skill::Skill(const char* name, const char* description, int level) {
     return;
 }
 
+Skill::Skill(const Skill& originalSkill) {
+    _name = NULL;
+    _description = NULL;
+    *this = originalSkill;
+    return;
+}
+
+Skill& Skill::operator =(const Skill& originalSkill) {
+    delete [] _name;
+    delete [] _description;
+    _level = 0;
+
+    setValues(originalSkill.getName(), originalSkill.getDescription(),
+              originalSkill.getLevel());
+
+    return *this;
+}
+
 Skill::~Skill() {
     delete [] _name;
     delete [] _description;
@@ -37,13 +60,25 @@ Skill::~Skill() {
     return;
 }
 
+char* Skill::getName() const {
+    return _name;
+}
+
+char* Skill::getDescription() const {
+    return _description;
+}
+
+int Skill::getLevel() const {
+    return _level;
+}
+
 std::ostream& Skill::Display(std::ostream& os) {
-    os << _name << " -- " << _description << " [Lvl: " << _level << "]\n";
+    os << *this;
     return os;
 }
 
-int main() {
-    Skill s("Alphabet", "Mastery of letters and sounds", 0);
-    s.Display(std::cout);
-    return 0;
+std::ostream& operator <<(std::ostream& os, const Skill& s) {
+    os << s.getName() << " -- " << s.getDescription() << " [Lvl: " 
+       << s.getLevel() << "]\n";
+    return os;
 }
