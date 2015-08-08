@@ -136,18 +136,18 @@ std::ostream& skillNode::Display(std::ostream& os, int depth) {
 }
 
 skillNode* skillNode::findSkillNode(const char* name) {
+    skillNode* returnPtr = NULL;
+
     if(strcmp(name, _skill.getName()) == 0) {
-        return this;
+        returnPtr = this;
     }
 
     else {
-        for(int i = 0; i < _numberOfChildren; i++) {
-            if(_children[i]->findSkillNode(name)) {
-                return _children[i]->findSkillNode(name);
-            }
+        for(int i = 0; i < _numberOfChildren && !(returnPtr); i++) {
+            returnPtr = _children[i]->findSkillNode(name);
         }
-
-        return NULL;
     }
+
+    return returnPtr;
 }
 
