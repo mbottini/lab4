@@ -20,7 +20,7 @@ void skillNode::setValues() {
         _maxChildren = MAX_CHILDREN;
     }
 
-    else {
+    else { // Allocation failed, so we can't store any children.
         _maxChildren = 0;
     }
 
@@ -34,10 +34,11 @@ skillNode::~skillNode() {
 }
 
 void skillNode::chainDelete() {
+    // Delete the children
     for(int i = 0; i < _numberOfChildren; i++) {
         delete _children[i];
     }
-
+    // and then delete the array that holds the pointers to said children.
     delete [] _children;
     _children = NULL;
     return;
@@ -53,11 +54,13 @@ skillNode::skillNode(const skillNode& originalNode) {
 
 skillNode& skillNode::operator =(const skillNode& originalNode) {
     chainDelete();
-    setValues();
+    setValues(); // See above - sets the default values.
 
+    // Copy each child of originalNode to *this.
     for(int i = 0; i < originalNode.getNumberOfChildren(); i++) {
         _children[i] = new skillNode;
         if(_children[i]) {
+            // Recursion here - this does the exact same operation on children.
             *(_children[i]) = *originalNode[i];
             _numberOfChildren++;
         }
@@ -76,6 +79,7 @@ int skillNode::getNumberOfChildren() const {
     return _numberOfChildren;
 }
 
+// Shorthand - skillNode[i] is now the ith child of the node.
 skillNode* skillNode::operator [](const int index) const {
     if(index >= 0 && index < _numberOfChildren) {
         return _children[index];
@@ -129,6 +133,8 @@ std::ostream& skillNode::Display(std::ostream& os, int depth) {
     }
     os << "  - " << _skill << "\n";
     for(int i = 0; i < _numberOfChildren; i++) {
+        // Recursion. Root's depth should be 0. Its children's depth is 1.
+        // The children's children's depth is 2, and so on.
         _children[i]->Display(os, depth + 1);
     }
 
@@ -144,6 +150,8 @@ skillNode* skillNode::findSkillNode(const char* name) {
 
     else {
         for(int i = 0; i < _numberOfChildren && !(returnPtr); i++) {
+            // Recursion. Base cases are NULL (if no children and the
+            // name doesn't match) and the pointer to the node if it does match.
             returnPtr = _children[i]->findSkillNode(name);
         }
     }
