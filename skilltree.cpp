@@ -60,8 +60,8 @@ void SkillTree::AddSkill(const char* name, const char* description, int level) {
         }
     }
 
-    else {
-        skillNode* tempNode = new skillNode;
+    else if (!findSkillNode(name)) { // If a duplicate doesn't already exist,
+        skillNode* tempNode = new skillNode; // make a new node and add it.
         if(tempNode) {
             tempNode->setSkill(newSkill);
             tempNode->addChild(_root);
