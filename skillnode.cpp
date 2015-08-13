@@ -37,10 +37,12 @@ void skillNode::chainDelete() {
     // Delete the children
     for(int i = 0; i < _numberOfChildren; i++) {
         delete _children[i];
+        _children[i] = NULL;
     }
     // and then delete the array that holds the pointers to said children.
     delete [] _children;
     _children = NULL;
+    _numberOfChildren = 0;
     return;
 }
 

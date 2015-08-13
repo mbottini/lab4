@@ -59,7 +59,9 @@ Skill& Skill::operator =(const Skill& originalSkill) {
 
 Skill::~Skill() {
     delete [] _name;
+    _name = NULL;
     delete [] _description;
+    _description = NULL;
     _level = 0;
     return;
 }

@@ -33,7 +33,7 @@ SkillTree& SkillTree::operator =(const SkillTree& originalTree) {
         _root = new skillNode;
 
         if(_root) {
-            _root = originalTree.getRoot();
+            *_root = *(originalTree.getRoot());
         }
 
         else {
