@@ -1,7 +1,19 @@
 # lab4
 CS 260 lab 4.
 
-Implementation of a tree abstract data type. Files are the following:
+Implementation of a tree abstract data type. 
+
+Make with the following command:
+
+    $ make
+
+Run with the following command:
+
+    $ ./lab4.
+
+Program currently runs with no memory leaks or crashes, which is nice.
+
+Files are the following:
 
 ## skill.cpp: Skill class. 
 Class has the following members:
